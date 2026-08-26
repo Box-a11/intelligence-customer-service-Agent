@@ -1,0 +1,26 @@
+{"id": "qa-001", "input": "偏远地区运费怎么算？", "intent": "qa", "expected_doc": "02-配送与物流", "expected_contains": ["偏远", "运费"], "should_ticket": false}
+{"id": "qa-002", "input": "怎么申请退货？", "intent": "qa", "expected_doc": "03-退换货政策", "expected_contains": ["退货"], "should_ticket": false}
+{"id": "qa-003", "input": "退款多久能到账？", "intent": "qa", "expected_doc": "04-退款说明", "expected_contains": ["退款"], "should_ticket": false}
+{"id": "qa-004", "input": "电子发票怎么开？", "intent": "qa", "expected_doc": "05-发票说明", "expected_contains": ["发票"], "should_ticket": false}
+{"id": "qa-005", "input": "会员积分怎么获得？", "intent": "qa", "expected_doc": "06-会员与积分", "expected_contains": ["积分"], "should_ticket": false}
+{"id": "qa-006", "input": "支付失败怎么办？", "intent": "qa", "expected_doc": "07-支付与安全", "expected_contains": ["支付"], "should_ticket": false}
+{"id": "qa-007", "input": "App闪退了怎么办？", "intent": "qa", "expected_doc": "08-常见故障与排查", "expected_contains": ["闪退"], "should_ticket": false}
+{"id": "qa-008", "input": "优惠券怎么使用？", "intent": "qa", "expected_doc": "11-大促与优惠活动", "expected_contains": ["优惠券"], "should_ticket": false}
+{"id": "qa-009", "input": "怎么查询物流信息？", "intent": "qa", "expected_doc": "02-配送与物流", "expected_contains": ["物流"], "should_ticket": false}
+{"id": "qa-010", "input": "签收时要注意什么？", "intent": "qa", "expected_doc": "02-配送与物流", "expected_contains": ["签收"], "should_ticket": false}
+{"id": "con-001", "input": "你们支持分期付款吗？", "intent": "consultation", "expected_doc": "07-支付与安全", "expected_contains": ["分期"], "should_ticket": false}
+{"id": "con-002", "input": "会员怎么开通？", "intent": "consultation", "expected_doc": "06-会员与积分", "expected_contains": ["开通"], "should_ticket": false}
+{"id": "con-003", "input": "618有什么优惠活动？", "intent": "consultation", "expected_doc": "11-大促与优惠活动", "expected_contains": ["优惠"], "should_ticket": false}
+{"id": "con-004", "input": "包邮门槛是多少？", "intent": "consultation", "expected_doc": "02-配送与物流", "expected_contains": ["包邮"], "should_ticket": false}
+{"id": "con-005", "input": "我想了解一下会员权益", "intent": "consultation", "expected_doc": "06-会员与积分", "expected_contains": ["权益"], "should_ticket": false}
+{"id": "con-006", "input": "客服热线是多少？", "intent": "consultation", "expected_doc": "12-客服联系方式", "expected_contains": ["热线"], "should_ticket": false}
+{"id": "com-001", "input": "你们服务太差了，我要投诉！", "intent": "complaint", "expected_doc": null, "expected_contains": [], "should_ticket": true}
+{"id": "com-002", "input": "收到货是坏的，太坑了！", "intent": "complaint", "expected_doc": null, "expected_contains": [], "should_ticket": true}
+{"id": "com-003", "input": "我要举报商家虚假宣传", "intent": "complaint", "expected_doc": null, "expected_contains": [], "should_ticket": true}
+{"id": "com-004", "input": "物流太慢了，很不满意", "intent": "complaint", "expected_doc": null, "expected_contains": [], "should_ticket": true}
+{"id": "unc-001", "input": "这个", "intent": "unclear", "expected_doc": null, "expected_contains": [], "should_ticket": false}
+{"id": "unc-002", "input": "有问题", "intent": "unclear", "expected_doc": null, "expected_contains": [], "should_ticket": false}
+{"id": "esc-001", "input": "为什么天空是蓝色的？", "intent": "qa", "expected_doc": null, "expected_contains": [], "should_ticket": true}
+{"id": "esc-002", "input": "给我讲个笑话", "intent": "qa", "expected_doc": null, "expected_contains": [], "should_ticket": true}
+{"id": "esc-003", "input": "今天天气怎么样", "intent": "qa", "expected_doc": null, "expected_contains": [], "should_ticket": true}
+{"id": "qa-011", "input": "退货后退款多久到账？", "intent": "qa", "expected_doc": "03-退换货政策", "expected_contains": ["退货", "退款"], "should_ticket": false}

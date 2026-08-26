@@ -1,0 +1,16 @@
+# 智能客服 Agent —— Python 依赖
+# LLM 通过 OpenAI 兼容接口接入（DeepSeek / 通义千问 / 智谱 / OpenAI 等），
+# 未配置 API Key 时自动回退到离线 Mock，测试与评测零成本可跑。
+fastapi>=0.110
+uvicorn>=0.29
+langgraph>=0.2.0
+langchain-core>=0.3.0
+openai>=1.40.0
+numpy>=1.26.0
+# 本地语义 embedding（BAAI/bge-small-zh-v1.5），连带安装 torch；
+# 未安装时检索自动回退离线哈希嵌入（hash_embed），不影响测试/评测。
+sentence-transformers>=3.0.0
+pydantic>=2.7.0
+httpx>=0.27.0
+python-dotenv>=1.0.0
+pytest>=8.0.0

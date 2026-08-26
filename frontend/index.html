@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>优选商城 · 智能客服</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <button id="toggle-sidebar" class="btn btn-ghost btn-icon" title="收起/展开历史对话">☰</button>
+      <span class="logo">🛒</span>
+      <span class="title">优选商城 · 智能客服</span>
+      <span id="backend-badge" class="badge badge-gray">连接中…</span>
+    </div>
+    <div class="actions">
+      <span class="session-hint">会话 <code id="session-id">-</code></span>
+      <button id="new-session" class="btn btn-ghost" title="开始一段新对话">＋ 新会话</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="history-panel" class="history-panel">
+      <div class="history-head">
+        <h2 class="panel-title">历史对话</h2>
+        <button id="refresh-history" class="btn btn-ghost btn-icon" title="刷新列表">⟳</button>
+      </div>
+      <div id="sessions" class="sessions"></div>
+    </aside>
+
+    <main class="chat-panel">
+      <div id="messages" class="messages"></div>
+      <div class="composer">
+        <textarea id="input" rows="1" placeholder="请输入你的问题，例如：退款多久能到账？"></textarea>
+        <button id="send" class="btn btn-primary">发送</button>
+      </div>
+    </main>
+
+    <aside class="side-panel">
+      <h2 class="panel-title">工单 · 转人工</h2>
+      <p class="panel-sub">投诉与无法解答的问题会自动生成工单</p>
+      <div id="tickets" class="tickets"></div>
+    </aside>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
