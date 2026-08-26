@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>优选商城 · 监控大盘</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">📊</span>
+      <span class="title">优选商城 · 监控大盘</span>
+    </div>
+    <div class="actions">
+      <a href="/" class="btn btn-ghost">← 返回对话</a>
+    </div>
+  </header>
+
+  <main class="dash">
+    <!-- KPI 统计卡 -->
+    <section class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">总请求数</div>
+        <div class="kpi-value" id="kpi-requests">–</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">会话数</div>
+        <div class="kpi-value" id="kpi-sessions">–</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">工单数</div>
+        <div class="kpi-value" id="kpi-tickets">–</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">平均延迟</div>
+        <div class="kpi-value" id="kpi-latency">–</div>
+      </div>
+    </section>
+
+    <section class="dash-grid">
+      <div class="card">
+        <h2 class="card-title">意图分布</h2>
+        <div id="intent-bars" class="bars"></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">检索来源 Top 10</h2>
+        <div id="source-bars" class="bars"></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">系统信息</h2>
+        <div id="sys-info" class="kv"></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">工单与延迟</h2>
+        <div id="ticket-info" class="kv"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">最近请求</h2>
+      <div class="table-wrap">
+        <table class="recent-table">
+          <thead>
+            <tr><th>时间</th><th>消息</th><th>意图</th><th>延迟</th><th>来源</th><th>结果</th></tr>
+          </thead>
+          <tbody id="recent-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>

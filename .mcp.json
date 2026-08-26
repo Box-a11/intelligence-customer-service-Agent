@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rag-kb": {
+      "command": ".venv/Scripts/python",
+      "args": ["mcp_server.py"]
+    }
+  }
+}

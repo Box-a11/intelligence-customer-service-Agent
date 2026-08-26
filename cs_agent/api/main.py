@@ -1,5 +1,7 @@
-"""FastAPI 应用：/chat、/sessions、/tickets、/memory、/health，并托管前端页面。"""
+"""FastAPI 应用：/chat、/sessions、/tickets、/memory、/health、/metrics，并托管前端页面。"""
 from __future__ import annotations
+
+import time
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,12 +11,14 @@ from fastapi.staticfiles import StaticFiles
 from .. import config
 from ..agent.history import ConversationStore
 from ..agent.memory import MemoryStore
+from ..agent.metrics import MetricsStore
 from ..app import build_agent
 from ..schemas import ChatRequest, ChatResponse, Ticket
 
 agent, ticket_store, _retriever = build_agent()
 history_store = ConversationStore(config.HISTORY_PATH)
 memory_store = MemoryStore(config.MEMORY_PATH)
+metrics_store = MetricsStore()
 
 FRONTEND_DIR = config.BASE_DIR / "frontend"
 
@@ -53,9 +57,11 @@ def health():
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest) -> ChatResponse:
+    t0 = time.perf_counter()
     history = history_store.get(req.session_id)
     memory = _format_memory(memory_store.get(req.user_id))
     result = agent.run(req.message, history=history, memory=memory)
+    elapsed_ms = (time.perf_counter() - t0) * 1000
     reply = result.get("answer", "")
 
     # 持久化本轮对话与长期记忆
@@ -64,6 +70,16 @@ def chat(req: ChatRequest) -> ChatResponse:
     if not result.get("needs_clarification"):
         # 澄清话术不算有效回答，不写入长期记忆
         memory_store.add(req.user_id, req.message, reply[:200])
+
+    # 记录可观测指标
+    metrics_store.record(
+        intent=result.get("intent"),
+        latency_ms=elapsed_ms,
+        sources=list(result.get("sources", [])),
+        needs_clarification=bool(result.get("needs_clarification")),
+        has_ticket=result.get("ticket") is not None,
+        message=req.message,
+    )
 
     return ChatResponse(
         reply=reply,
@@ -106,6 +122,38 @@ def get_memory(user_id: str):
     return {"user_id": user_id, "memories": mems}
 
 
+@app.get("/metrics")
+def metrics():
+    """监控大盘聚合数据：系统信息 + 实时指标 + 各 Store 持久化计数。"""
+    snap = metrics_store.snapshot()
+    tickets = ticket_store.list()
+    return {
+        "system": {
+            "llm": agent.provider.name,
+            "llm_model": config.LLM_MODEL,
+            "embed_backend": config.EMBED_BACKEND,
+            "routing": config.ENABLE_ROUTING,
+            "version": app.version,
+        },
+        "counts": {
+            "requests": snap["requests"],
+            "sessions": len(history_store.list_sessions()),
+            "tickets": len(tickets),
+            "memory_users": len(memory_store.list_users()),
+        },
+        "tickets_breakdown": {
+            "complaint": sum(1 for t in tickets if t.intent == "complaint"),
+            "escalate": sum(1 for t in tickets if t.intent != "complaint"),
+            "open": sum(1 for t in tickets if t.status.value == "open"),
+            "closed": sum(1 for t in tickets if t.status.value == "closed"),
+        },
+        "intents": snap["intents"],
+        "latency": snap["latency"],
+        "retrieval": snap["retrieval"],
+        "recent_requests": snap["recent_requests"],
+    }
+
+
 # ---- 前端页面（最后挂载，避免覆盖 API 路由）----
 app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 
@@ -113,3 +161,8 @@ app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 @app.get("/")
 def index():
     return FileResponse(str(FRONTEND_DIR / "index.html"))
+
+
+@app.get("/dashboard")
+def dashboard():
+    return FileResponse(str(FRONTEND_DIR / "dashboard.html"))

@@ -24,15 +24,18 @@ cs_agent/
   schemas.py      # Pydantic 模型（ChatRequest 含 message/session_id/user_id）
   llm/            # base(接口) / openai_compat / mock（可插拔，无 Key 回退 Mock）
   rag/            # loader / chunker / embeddings(hash_embed) / local_embed(bge) / router(分片路由) / retriever(混合检索)
-  agent/          # graph.py(ReAct) / ticket.py / history.py / memory.py
+  agent/          # graph.py(ReAct) / ticket.py / history.py / memory.py / metrics.py(可观测指标)
   app.py          # build_agent() 工厂
   api/main.py     # FastAPI 路由 + 前端托管
-frontend/         # index.html + styles.css + app.js
+frontend/         # index.html + styles.css + app.js + dashboard(监控大盘)
 eval/             # eval_set.jsonl + run_eval.py
-tests/            # 33 个 pytest 用例
+tests/            # 43 个 pytest 用例
 docs/             # 01-需求文档 / 02-技术方案
 reports/          # 测试报告 / 评测报告
 data/             # conversations.json + memory.json（运行时生成，已 gitignore）
+mcp_server.py     # RAG MCP Server（search/route 等检索工具，供外部 Agent 调用）
+.mcp.json         # MCP Server 注册配置（rag-kb）
+.claude/skills/   # 项目 skill：eval(评测) / sync-docs(文档同步)
 ```
 
 ## 常用命令
@@ -55,6 +58,8 @@ data/             # conversations.json + memory.json（运行时生成，已 git
 - `GET /tickets`、`GET /tickets/{id}` — 工单
 - `GET /memory/{user_id}` — 用户长期记忆
 - `GET /health`
+- `GET /metrics` — 监控大盘聚合数据（系统信息 + 实时指标 + 持久化计数）
+- `GET /dashboard` — 监控大盘前端页面（`http://127.0.0.1:8000/dashboard`）
 
 ## 核心设计
 
@@ -75,5 +80,5 @@ data/             # conversations.json + memory.json（运行时生成，已 git
 
 ## 验证状态
 
-- 测试：**33 passed**（意图/RAG/ReAct/工单/历史/记忆/接口全覆盖）
+- 测试：**43 passed**（意图/RAG/ReAct/工单/历史/记忆/接口/路由/指标全覆盖）
 - 评测：意图准确率/检索命中/答案覆盖/转人工 **4 项均 100%**（离线 Mock）
