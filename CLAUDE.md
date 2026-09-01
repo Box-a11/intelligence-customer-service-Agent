@@ -32,7 +32,7 @@ eval/             # eval_set.jsonl + run_eval.py
 tests/            # 43 个 pytest 用例
 docs/             # 01-需求文档 / 02-技术方案
 reports/          # 测试报告 / 评测报告
-data/             # conversations.json + memory.json（运行时生成，已 gitignore）
+data/             # conversations.json + memory.json + tickets.json + metrics.json（运行时生成，已 gitignore）
 mcp_server.py     # RAG MCP Server（search/route 等检索工具，供外部 Agent 调用）
 .mcp.json         # MCP Server 注册配置（rag-kb）
 .claude/skills/   # 项目 skill：eval(评测) / sync-docs(文档同步)
@@ -73,7 +73,7 @@ mcp_server.py     # RAG MCP Server（search/route 等检索工具，供外部 Ag
 
 1. **`deepseek-v4-pro` 是推理模型**：先输出 `reasoning_content` 再输出 `content`，`max_tokens` 必须给足（openai_compat.py 已设 1024/2048），过小会 `content` 为空。
 2. **DeepSeek 无 embedding 接口**：检索稠密向量改走本地 bge（`EMBED_BACKEND=local` + `LOCAL_EMBED_MODEL=BAAI/bge-small-zh-v1.5`）；`LocalEmbedder` 懒加载、加载/推理失败自动回退 `hash_embed`，`EMBED_MODEL` 留空即对 OpenAI 兼容端点回退。
-3. **测试/评测强制离线**：`tests/conftest.py` 设 `LLM_API_KEY=""`、`EMBED_BACKEND="hash"`、`HISTORY_PATH`/`MEMORY_PATH` 指向临时目录，避免触发真实 API、加载 bge 模型和污染 `data/`。
+3. **测试/评测强制离线**：`tests/conftest.py` 设 `LLM_API_KEY=""`、`EMBED_BACKEND="hash"`、`HISTORY_PATH`/`MEMORY_PATH`/`TICKET_PATH`/`METRICS_PATH` 指向临时目录，避免触发真实 API、加载 bge 模型和污染 `data/`。
 4. **`.env` 含真实 Key**（已 gitignore；本项目不是 git 仓库）。
 5. **真实模型的意图有软边界**：qa/consultation 判断与 Mock 关键词规则可能不一致（如「退款多久到账」可能判 consultation），但走同一 RAG 路径，不影响效果。
 6. **推理模型较慢**：每轮 2~15 秒属正常。

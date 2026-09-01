@@ -13,6 +13,9 @@ os.environ["EMBED_BACKEND"] = "hash"
 os.environ["HISTORY_PATH"] = os.path.join(tempfile.gettempdir(), "cs_agent_test_conversations.json")
 # 长期记忆同样写入临时目录
 os.environ["MEMORY_PATH"] = os.path.join(tempfile.gettempdir(), "cs_agent_test_memory.json")
+# 工单、指标累计同样写入临时目录，避免污染 data/
+os.environ["TICKET_PATH"] = os.path.join(tempfile.gettempdir(), "cs_agent_test_tickets.json")
+os.environ["METRICS_PATH"] = os.path.join(tempfile.gettempdir(), "cs_agent_test_metrics.json")
 
 import pytest
 
@@ -36,6 +39,6 @@ def mock_agent() -> dict:
         router=Router(top_n=config.ROUTE_TOP_N),
     )
     retriever.build(load_documents(config.KNOWLEDGE_BASE_DIR))
-    store = TicketStore()
+    store = TicketStore(config.TICKET_PATH)
     agent = CustomerServiceAgent(provider, retriever, store)
     return {"agent": agent, "retriever": retriever, "store": store, "provider": provider}

@@ -14,6 +14,10 @@ KNOWLEDGE_BASE_DIR = Path(os.getenv("KNOWLEDGE_BASE_DIR", str(BASE_DIR / "knowle
 HISTORY_PATH = os.getenv("HISTORY_PATH", str(BASE_DIR / "data" / "conversations.json"))
 # 用户长期记忆持久化文件路径
 MEMORY_PATH = os.getenv("MEMORY_PATH", str(BASE_DIR / "data" / "memory.json"))
+# 工单持久化文件路径
+TICKET_PATH = os.getenv("TICKET_PATH", str(BASE_DIR / "data" / "tickets.json"))
+# 可观测指标累计持久化文件路径（请求数/意图/来源/延迟聚合）
+METRICS_PATH = os.getenv("METRICS_PATH", str(BASE_DIR / "data" / "metrics.json"))
 
 # ---- LLM（OpenAI 兼容接口）----
 # 未配置 LLM_API_KEY 时自动回退到离线 Mock，保证测试/评测零成本可跑。

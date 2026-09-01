@@ -45,6 +45,6 @@ def build_agent(force_mock: bool = False) -> Tuple[CustomerServiceAgent, TicketS
     )
     docs = load_documents(config.KNOWLEDGE_BASE_DIR)
     retriever.build(docs)
-    ticket_store = TicketStore()
+    ticket_store = TicketStore(config.TICKET_PATH)
     agent = CustomerServiceAgent(provider, retriever, ticket_store, max_react_rounds=config.MAX_REACT_ROUNDS)
     return agent, ticket_store, retriever

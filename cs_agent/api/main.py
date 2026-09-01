@@ -18,7 +18,7 @@ from ..schemas import ChatRequest, ChatResponse, Ticket
 agent, ticket_store, _retriever = build_agent()
 history_store = ConversationStore(config.HISTORY_PATH)
 memory_store = MemoryStore(config.MEMORY_PATH)
-metrics_store = MetricsStore()
+metrics_store = MetricsStore(config.METRICS_PATH)
 
 FRONTEND_DIR = config.BASE_DIR / "frontend"
 
